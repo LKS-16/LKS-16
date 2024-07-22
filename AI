@@ -1,0 +1,68 @@
+import numpy as np
+import tensorflow as tf
+from tensorflow import keras
+from sklearn.preprocessing import LabelEncoder
+
+# Amostras de dados para treinamento
+data = {
+    "perguntas": [
+        "Olá", "Oi", "Tudo bem?", "Qual é o seu nome?",
+        "Como você está?", "Quem é você?", "O que você faz?",
+        "Qual é a capital da França?", "Quantos anos você tem?"
+    ],
+    "respostas": [
+        "Oi", "Olá!", "Estou bem, obrigado!", "Eu sou uma IA criada por você.",
+        "Estou bem, e você?", "Eu sou um chatbot.", "Eu respondo perguntas.",
+        "A capital da França é Paris.", "Eu não tenho idade."
+    ]
+}
+
+# Pré-processamento dos dados
+perguntas = data["perguntas"]
+respostas = data["respostas"]
+
+# Codificação das respostas
+label_encoder = LabelEncoder()
+respostas_codificadas = label_encoder.fit_transform(respostas)
+
+# Tokenização das perguntas
+tokenizer = keras.preprocessing.text.Tokenizer()
+tokenizer.fit_on_texts(perguntas)
+sequencias_perguntas = tokenizer.texts_to_sequences(perguntas)
+sequencias_perguntas_padded = keras.preprocessing.sequence.pad_sequences(sequencias_perguntas, padding='post')
+
+# Parâmetros do modelo
+input_dim = len(tokenizer.word_index) + 1
+output_dim = len(label_encoder.classes_)
+embedding_dim = 16
+
+# Construção do modelo
+model = keras.Sequential([
+    keras.layers.Embedding(input_dim=input_dim, output_dim=embedding_dim, input_length=sequencias_perguntas_padded.shape[1]),
+    keras.layers.Flatten(),
+    keras.layers.Dense(16, activation='relu'),
+    keras.layers.Dense(output_dim, activation='softmax')
+])
+
+# Compilação do modelo
+model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+
+# Treinamento do modelo
+model.fit(sequencias_perguntas_padded, np.array(respostas_codificadas), epochs=500)
+
+# Função para prever a resposta
+def prever_resposta(pergunta):
+    sequencia_pergunta = tokenizer.texts_to_sequences([pergunta])
+    sequencia_pergunta_padded = keras.preprocessing.sequence.pad_sequences(sequencia_pergunta, maxlen=sequencias_perguntas_padded.shape[1], padding='post')
+    predicao = model.predict(sequencia_pergunta_padded)
+    resposta_codificada = np.argmax(predicao)
+    resposta = label_encoder.inverse_transform([resposta_codificada])
+    return resposta[0]
+
+# Testando o chatbot
+while True:
+    pergunta = input("Você: ")
+    if pergunta.lower() == "sair":
+        break
+    resposta = prever_resposta(pergunta)
+    print("Chatbot:", resposta)
