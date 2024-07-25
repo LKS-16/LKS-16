@@ -1,0 +1,12 @@
+if __name__ == "__main__":
+    print('''Escolha o nível de dificuldade:
+[1] - Fácil
+[2] - Médio
+[3] - Difícil''')
+    nivel = int(input('Defina o nível: '))
+    if nivel == 1:
+        numero_tentativas = 20
+    elif nivel == 2:
+        numero_tentativas = 10
+    else:
+        numero_tentativas = 5
