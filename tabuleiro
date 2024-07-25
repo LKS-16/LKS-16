@@ -1,0 +1,8 @@
+def generate_board(size):
+    # Gera uma lista de pares de cartas
+    cards = list(range(1, (size * size // 2) + 1)) * 2
+    random.shuffle(cards)
+
+    # Divide a lista de cartas em um tabuleiro 2D
+    board = [cards[i * size:(i + 1) * size] for i in range(size)]
+    return board
