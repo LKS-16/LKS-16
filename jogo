@@ -1,0 +1,57 @@
+import random
+
+def criar_tabuleiro(tamanho):
+    # Lista de 32 símbolos únicos
+    simbolos = list('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789')[:32]
+    pares_necessarios = (tamanho * tamanho) // 2
+    simbolos = simbolos[:pares_necessarios] * 2  # Duplicar símbolos para formar pares
+    random.shuffle(simbolos)
+    return [simbolos[i * tamanho:(i + 1) * tamanho] for i in range(tamanho)]
+
+def mostrar_tabuleiro(tabuleiro, visivel):
+    for i, linha in enumerate(tabuleiro):
+        for j, simbolo in enumerate(linha):
+            if visivel[i][j]:
+                print(simbolo, end=' ')
+            else:
+                print('*', end=' ')
+        print()
+
+def jogo_da_memoria():
+    nivel = 1
+    tamanho = 4
+
+    while nivel <= 5:
+        print(f"\nBem-vindo ao Nível {nivel}!")
+        tabuleiro = criar_tabuleiro(tamanho)
+        visivel = [[False] * tamanho for _ in range(tamanho)]
+        tentativas = 0
+
+        while not all(all(linha) for linha in visivel):
+            mostrar_tabuleiro(tabuleiro, visivel)
+            try:
+                x1, y1 = map(int, input("Escolha a primeira carta (linha coluna): ").split())
+                x2, y2 = map(int, input("Escolha a segunda carta (linha coluna): ").split())
+            except ValueError:
+                print("Entrada inválida. Por favor, insira as coordenadas no formato 'linha coluna'.")
+                continue
+
+            if (x1 == x2 and y1 == y2) or visivel[x1][y1] or visivel[x2][y2]:
+                print("Seleção inválida. Tente novamente.")
+                continue
+
+            visivel[x1][y1] = True
+            visivel[x2][y2] = True
+            mostrar_tabuleiro(tabuleiro, visivel)
+
+            if tabuleiro[x1][y1] != tabuleiro[x2][y2]:
+                visivel[x1][y1] = False
+                visivel[x2][y2] = False
+
+            tentativas += 1
+
+        print(f"Você venceu o Nível {nivel} em {tentativas} tentativas!")
+        nivel += 1
+        tamanho += 1
+
+jogo_da_memoria()
