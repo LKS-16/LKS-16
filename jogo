@@ -9,7 +9,12 @@ def criar_tabuleiro(tamanho):
     return [simbolos[i * tamanho:(i + 1) * tamanho] for i in range(tamanho)]
 
 def mostrar_tabuleiro(tabuleiro, visivel):
+    print(" ", end=" ")
+    for i in range(len(tabuleiro)):
+        print(i, end=" ")
+    print()
     for i, linha in enumerate(tabuleiro):
+        print(i, end=" ")
         for j, simbolo in enumerate(linha):
             if visivel[i][j]:
                 print(simbolo, end=' ')
@@ -29,6 +34,8 @@ def jogo_da_memoria():
 
         while not all(all(linha) for linha in visivel):
             mostrar_tabuleiro(tabuleiro, visivel)
+            print("\n" + "-" * (tamanho * 2 + 1) + "\n")  # Linha de separação
+
             try:
                 x1, y1 = map(int, input("Escolha a primeira carta (linha coluna): ").split())
                 x2, y2 = map(int, input("Escolha a segunda carta (linha coluna): ").split())
@@ -43,6 +50,7 @@ def jogo_da_memoria():
             visivel[x1][y1] = True
             visivel[x2][y2] = True
             mostrar_tabuleiro(tabuleiro, visivel)
+            print("\n" + "-" * (tamanho * 2 + 1) + "\n")  # Linha de separação
 
             if tabuleiro[x1][y1] != tabuleiro[x2][y2]:
                 visivel[x1][y1] = False
