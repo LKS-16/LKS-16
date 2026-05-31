@@ -9,10 +9,10 @@
 ![C#](https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=csharp&logoColor=white)
 ---
 ##  Lukas de Araujo GitHub Stats
-[![Lukas GitHub stats](https://github-readme-stats.vercel.app/api?username=LKS-16&show_icons=true&theme=radical&cache_seconds=1800)](https://github.com/LKS-16)
+![Lukas GitHub stats](https://github-readme-stats-fast.vercel.app/api?username=LKS-16&show_icons=true&theme=radical)
 ---
 ##  Linguagens mais usadas
-[![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=LKS-16&layout=compact&theme=radical&cache_seconds=1800)](https://github.com/LKS-16)
+![Top Langs](https://github-readme-stats-fast.vercel.app/api/top-langs/?username=LKS-16&layout=compact&theme=radical)
 ---
 <!---
 LKS-16/LKS-16 is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
